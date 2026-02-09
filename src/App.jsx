@@ -1,9 +1,11 @@
 import React from 'react';
 import './App.css';
-import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
+import ProtectedRoute from './components/ProtectedRoute';
 // Import other components if needed for other routes
 // import Header from './components/Header';
 // import Hero from './components/Hero';
@@ -22,20 +24,32 @@ function DebugInfo() {
   );
 }
 
+import MainLayout from './components/MainLayout';
+
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <div className="App">
           <Routes>
-            <Route path="/" element={<LoginPage />} />
-            {/* Catch-all route */}
-            <Route path="*" element={
-              <div style={{ padding: 50, textAlign: 'center' }}>
-                <h1>404 - Not Found</h1>
-                <p>Current Path: {window.location.hash}</p>
-              </div>
-            } />
+            <Route element={<MainLayout />}>
+              <Route path="/login" element={<LoginPage />} />
+
+              {/* Protected Routes */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<HomePage />} />
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              </Route>
+
+              {/* Catch-all route */}
+              <Route path="*" element={
+                <div style={{ padding: 50, textAlign: 'center' }}>
+                  <h1>404 - Not Found</h1>
+                  <p>Current Path: {window.location.hash}</p>
+                  <a href="#/" className="btn btn-link">Go Home</a>
+                </div>
+              } />
+            </Route>
           </Routes>
           <DebugInfo />
         </div>
