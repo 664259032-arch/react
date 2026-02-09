@@ -11,9 +11,11 @@ import LoginPage from './pages/LoginPage';
 // import Footer from './components/Footer';
 
 function App() {
+  const routerBaseName = import.meta.env.BASE_URL;
+
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename={routerBaseName}>
         <div className="App">
           <Routes>
             <Route path="/" element={<LoginPage />} />
