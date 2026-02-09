@@ -10,6 +10,18 @@ import LoginPage from './pages/LoginPage';
 // import Features from './components/Features';
 // import Footer from './components/Footer';
 
+import { useLocation } from 'react-router-dom';
+
+function DebugInfo() {
+  const location = useLocation();
+  return (
+    <div style={{ position: 'fixed', bottom: 0, left: 0, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '10px', fontSize: '12px', zIndex: 9999 }}>
+      <p>Base: {import.meta.env.BASE_URL}</p>
+      <p>Path: {location.pathname}</p>
+    </div>
+  );
+}
+
 function App() {
   const routerBaseName = import.meta.env.BASE_URL;
 
@@ -19,8 +31,14 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            {/* Add other routes here, e.g., protected routes */}
+            <Route path="*" element={
+              <div style={{ padding: 50, textAlign: 'center' }}>
+                <h1>404 - Not Found</h1>
+                <p>Current Path: {window.location.pathname}</p>
+              </div>
+            } />
           </Routes>
+          <DebugInfo />
         </div>
       </Router>
     </Provider>
