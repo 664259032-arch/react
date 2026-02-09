@@ -23,7 +23,9 @@ function DebugInfo() {
 }
 
 function App() {
+  console.log('App.jsx: rendering...');
   const routerBaseName = import.meta.env.BASE_URL;
+  console.log('App.jsx: BASE_URL', routerBaseName);
 
   return (
     <Provider store={store}>
