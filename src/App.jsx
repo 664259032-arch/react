@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import LoginPage from './pages/LoginPage';
@@ -10,7 +10,6 @@ import LoginPage from './pages/LoginPage';
 // import Features from './components/Features';
 // import Footer from './components/Footer';
 
-import { useLocation } from 'react-router-dom';
 
 function DebugInfo() {
   const location = useLocation();
@@ -18,25 +17,23 @@ function DebugInfo() {
     <div style={{ position: 'fixed', bottom: 0, left: 0, background: 'rgba(0,0,0,0.8)', color: 'white', padding: '10px', fontSize: '12px', zIndex: 9999 }}>
       <p>Base: {import.meta.env.BASE_URL}</p>
       <p>Path: {location.pathname}</p>
+      <p>Hash: {location.hash}</p>
     </div>
   );
 }
 
 function App() {
-  console.log('App.jsx: rendering...');
-  const routerBaseName = import.meta.env.BASE_URL;
-  console.log('App.jsx: BASE_URL', routerBaseName);
-
   return (
     <Provider store={store}>
-      <Router basename={routerBaseName}>
+      <Router>
         <div className="App">
           <Routes>
             <Route path="/" element={<LoginPage />} />
+            {/* Catch-all route */}
             <Route path="*" element={
               <div style={{ padding: 50, textAlign: 'center' }}>
                 <h1>404 - Not Found</h1>
-                <p>Current Path: {window.location.pathname}</p>
+                <p>Current Path: {window.location.hash}</p>
               </div>
             } />
           </Routes>
